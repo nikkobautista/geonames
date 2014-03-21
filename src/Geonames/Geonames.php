@@ -218,7 +218,7 @@ class GeoNames
         }
 
         // remove useless root property, to make the result more user friendly
-        if ($this->endpoints[$endpoint] !== false && $ret instanceof stdclass) {
+        if ($this->endpoints[$endpoint] !== false && is_object($ret)) {
             $prop = $this->endpoints[$endpoint];
             $ret = $ret->$prop;
         }
