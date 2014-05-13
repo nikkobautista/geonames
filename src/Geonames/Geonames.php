@@ -47,7 +47,7 @@ use Exception;
  * @method array    wikipediaBoundingBox()    wikipediaBoundingBox(array $params)
  * @method array    wikipediaSearch()         wikipediaSearch(array $params)
  */
-class GeoNames
+class Geonames
 {
     /**
      * Exception code constant defined by this package.
