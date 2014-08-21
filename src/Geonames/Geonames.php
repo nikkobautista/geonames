@@ -210,7 +210,22 @@ class Geonames
         // build the url and retrieve the result
         $qString = $this->formatQueryString($params);
         $urlPath = $this->url . '/' . $endpoint . 'JSON?' . $qString;
-        $ret = json_decode(file_get_contents($urlPath));
+
+        if (!empty($params['proxy'])) {
+
+            $context = stream_context_create(array(
+                'http' => array(
+                    'proxy' => $params['proxy'],
+                    'request_fulluri' => true,
+                ),
+            ));
+
+            unset($params['proxy']);
+
+            $ret = json_decode(file_get_contents($urlPath, false, $context));
+        } else {
+            $ret = json_decode(file_get_contents($urlPath));
+        }
 
         // check if we have a error response
         if (isset($ret->status->message) && isset($ret->status->value)) {
