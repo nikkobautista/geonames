@@ -2,6 +2,7 @@
 namespace Geonames;
 
 use Exception;
+use GuzzleHttp\Client;
 
 /**
  * Main interface to the GeoNames API.
@@ -207,23 +208,25 @@ class Geonames
             $params['token'] = $this->token;
         }
 
-        // build the url and retrieve the result
-        $qString = $this->formatQueryString($params);
-        $urlPath = $this->url . '/' . $endpoint . 'JSON?' . $qString;
-
         if (!empty($params['proxy'])) {
-
-            $context = stream_context_create(array(
-                'http' => array(
-                    'proxy' => $params['proxy'],
-                    'request_fulluri' => true,
-                ),
+            $client = new Client(array(
+                'defaults' => array(
+                    'proxy' => $params['proxy']
+                )
             ));
-
             unset($params['proxy']);
 
-            $ret = json_decode(file_get_contents($urlPath, false, $context));
+            // build the url and retrieve the result
+            $qString = $this->formatQueryString($params);
+            $urlPath = $this->url . '/' . $endpoint . 'JSON?' . $qString;
+            $response = $client->get($urlPath);
+
+            $ret = (string) $response->getBody();
+            $ret = json_decode($ret);
         } else {
+            // build the url and retrieve the result
+            $qString = $this->formatQueryString($params);
+            $urlPath = $this->url . '/' . $endpoint . 'JSON?' . $qString;
             $ret = json_decode(file_get_contents($urlPath));
         }
 
