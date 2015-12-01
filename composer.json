@@ -16,12 +16,12 @@
         }
     ],
     "require" : {
-        "guzzlehttp/guzzle": "4.*",
-        "php" : ">=5.3.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "php" : ">=5.5"
     },
     "autoload" : {
-        "psr-0" : {
-            "Geonames" : "src"
+        "psr-4" : {
+            "Geonames\\" : "src"
         }
     },
     "support" : {
