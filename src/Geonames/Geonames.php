@@ -157,13 +157,16 @@ class Geonames
      * @param string $token    Token for commercial webservice (optional)
      * @return void
      */
-    public function __construct($username = null, $token = null)
+    public function __construct($username = null, $token = null, $url = null)
     {
         if ($username !== null) {
             $this->username = $username;
         }
         if ($token !== null) {
             $this->token = $token;
+        }
+        if ($url !== null) {
+            $this->url = $url;
         }
     }
 
